@@ -1,0 +1,5 @@
+HECHOS:
+[]
+
+POR HACER:
+[] Cambiar el formato de la funcion a f[c,d,...] = c+d*... 
