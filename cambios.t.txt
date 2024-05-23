@@ -1,7 +1,8 @@
 HECHOS:
 [x] Cambiar el formato de la funcion a f[c,d,...] = c+d*... 
+[x] IMplementar la funcion evaluate_function(funcion_name, *arg) que me devuelva el reultado de una funcion
 
 POR HACER:
 [] Implementar la funcion proximo() que haga break a todas las operaciones de esa linea y brinque a la proima linea del txt
-[] IMplementar la funcion evaluate_function(funcion_name, *arg) que me devuelva el reultado de una funcion
+
 
