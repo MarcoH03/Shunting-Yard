@@ -1,0 +1,11 @@
+def:f[x,y,z,w,v]=x-y+z-w*v
+def:g[x,y,z,w,v]=x+y/z*w*v
+def:h[x,y,z,w,v]=x-y+z/w/v
+def:i[x,y,z,w,v]=x+y+z+w*v
+def:j[x,y,z,w,v]=x-y*z+w-v
+eval:f[0,9,0,8,4]
+eval:g[9,5,9,7,9]
+eval:h[1,9,9,6,5]
+eval:i[1,8,4,0,0]
+eval:j[5,5,4,8,3]
+fin

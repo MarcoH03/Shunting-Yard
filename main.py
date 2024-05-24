@@ -1,7 +1,12 @@
 import re
 
-def proxima():
-    print("proxima() Not implemented yet")
+problem = False
+
+def error_Manager():
+    print("Hay un error en el txt")
+    global problem 
+    problem = True
+    
     
 def shunting_yard(expression):
 
@@ -21,9 +26,10 @@ def shunting_yard(expression):
                 output_queue.append(evaluate_function(token[1], *argumentos))
             else:
                 print(f"La función {token[1]} no está definida.")
-                proxima()
+                error_Manager()
+                return 0
                 
-        elif token[1].isnumeric() and expression[token[0]-1] != ',' and expression[token[0]-1] != '[':
+        elif (token[1].isnumeric() or '.' in token[1]) and expression[token[0]-1] != ',' and expression[token[0]-1] != '[':
             output_queue.append(float(token[1]))
 
         elif token[1] in precedence:
@@ -83,7 +89,8 @@ def shunting_yard(expression):
                     
                     if b==0:
                         print("Division por cero")
-                        proxima()
+                        error_Manager()
+                        return 0
                     else:
                         output_queue[i-2] = a/b
                         i=i-2
@@ -116,24 +123,29 @@ def add_function(function_str,functions):
     for variable in params:
         if not variable.isalpha():
             print(f"Los parametros de la función deben ser letras en la funcion {func_name}.")
-            proxima() 
+            error_Manager() 
+            return 0
         if params.count(variable)>1:
             print(f"El parametro {variable} está repetido en la funcion {func_name}.")
-            proxima()
+            error_Manager()
+            return 0
     for variable in expression:
         if variable.isalpha() and variable not in params:
             print(f"La variable {variable} no está definida en los parametros de la funcion {func_name}.")
-            proxima()
+            error_Manager()
+            return 0
         
     functions[func_name]={'args':num_params,'params':params,'expression':expression}
 
 def evaluate_function(func_name,*args):
     if func_name not in functions:
         print(f"La función {func_name} no está definida.")
-        proxima()
+        error_Manager()
+        return 0
     if not len(args)==functions[func_name]['args']:
         print(f"La función {func_name} requiere {functions[func_name]['args']} argumentos.")
-        proxima()
+        error_Manager()
+        return 0
     #print(f"La función {func_name} con argumentos {args} es igual a {evaluate_expression(functions[func_name]['expression'],dict(zip(functions[func_name]['params'],args)))}")
     
     expression = functions[func_name]['expression']
@@ -145,34 +157,50 @@ def evaluate_function(func_name,*args):
 functions={}
 
 def main():
+    
+    global problem
+    
+    with open('operaciones.txt', 'r') as text:
 
-    while True:
+        while True:
 
-        print("\n1. Añadir nueva función\n3. Evaluar expresión\n4. Salir")
+            #print("\n def: Añadir nueva función\n eval: Evaluar expresión\n fin Salir")
+            
+            for line in text:
+                 #line=input("Selecciona una opción: ")
+                if line.startswith("def:"):
+                    function_str=line.split(":")[1]
 
-        choice=input("Selecciona una opción: ")
+                    add_function(function_str,functions)
+                    
+                    if not problem:
+                        print("funcion agregada:\n")
+                        print("\n")
+                    else:
+                        problem = False
+                        continue
+                    
 
-        if choice=="1":
+                elif line.startswith("eval:"):
 
-            function_str=input("Introduce la nueva función: ")
+                    expression=line.split(":")[1]
 
-            add_function(function_str,functions)
+                    result=shunting_yard(expression)
+                    
+                    if not problem:
+                        print("Resultado:\n",result)
+                    else:
+                        problem = False
+                        continue
 
-        elif choice=="3":
+                elif line.startswith("fin"):
 
-            expression=input("Introduce la expresión a evaluar: ")
+                    break
 
-            result=shunting_yard(expression)
+                else:
 
-            print("Resultado:",result)
-
-        elif choice=="4":
-
-            break
-
-        else:
-
-            print("Opción no válida. Inténtalo de nuevo.")
+                    print("Opción no válida. Inténtalo de nuevo.\n")
+            
 
 if __name__ == "__main__":
 
