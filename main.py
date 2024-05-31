@@ -129,11 +129,12 @@ def add_function(function_str,functions):
             print(f"El parametro {variable} está repetido en la funcion {func_name}.")
             error_Manager()
             return 0
-    for variable in expression:
-        if variable.isalpha() and variable not in params:
-            print(f"La variable {variable} no está definida en los parametros de la funcion {func_name}.")
-            error_Manager()
-            return 0
+    # for variable in expression:
+    #     if variable.isalpha() and variable not in params:
+    #         print(f"La variable {variable} no está definida en los parametros de la funcion {func_name}.")
+    #         error_Manager()
+    #         return 0
+    
         
     functions[func_name]={'args':num_params,'params':params,'expression':expression}
 
@@ -151,7 +152,7 @@ def evaluate_function(func_name,*args):
     expression = functions[func_name]['expression']
     for i in range(len(args)):
         expression = expression.replace(functions[func_name]['params'][i],args[i])
-        
+    
     return shunting_yard(expression) 
     
 functions={}
